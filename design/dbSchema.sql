@@ -1,0 +1,69 @@
+CREATE DATABASE resumeGenerator;
+
+USE resumeGenerator;
+
+CREATE TABLE Users(
+  userId INT IDENTITY(1,1) PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(64) NOT NULL,
+  isActive BIT DEFAULT 1
+);
+
+CREATE TABLE PersonalInfo(
+  personalInfoId INT IDENTITY(1,1) PRIMARY KEY,
+  userId INT NOT NULL FOREIGN KEY REFERENCES users(userId),
+  fName VARCHAR(50) NOT NULL,
+  mName VARCHAR(50),
+  lName VARCHAR(50) NOT NULL,
+  address VARCHAR(100) NOT NULL,
+  city VARCHAR(35) NOT NULL,
+  province VARCHAR(50) NOT NULL,
+  zipCode VARCHAR(20) NOT NULL,
+  contactNo VARCHAR(20) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  birthDate DATE NOT NULL,
+  photoURL TEXT NOT NULL
+);
+
+CREATE TABLE WorkHistory(
+  workHistoryId INT IDENTITY(1,1) PRIMARY KEY,
+  userId INT NOT NULL FOREIGN KEY REFERENCES users(userId),
+  jobTitle VARCHAR(100) NOT NULL,
+  employer VARCHAR(100) NOT NULL,
+  startDate DATE NOT NULL,
+  endDate DATE,
+  location VARCHAR(100) NOT NULL,
+  jobDescription TEXT NOT NULL
+);
+
+CREATE TABLE EducationBG(
+  educationId INT IDENTITY(1,1) PRIMARY KEY,
+  userId INT NOT NULL FOREIGN KEY REFERENCES users(userId),
+  studyType VARCHAR(50) NOT NULL,
+  course VARCHAR(50),
+  institution VARCHAR(50) NOT NULL,
+  location VARCHAR(100) NOT NULL,
+  startDate DATE NOT NULL,
+  endDate DATE,
+);
+
+CREATE TABLE CharacterRef(
+  charRefId INT IDENTITY(1,1) PRIMARY KEY,
+  userId INT NOT NULL FOREIGN KEY REFERENCES users(userId),
+  name VARCHAR(100) NOT NULL,
+  jobTitle VARCHAR(100) NOT NULL,
+  contactNo VARCHAR(20) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+);
+
+CREATE TABLE ResumeLink(
+  resumeId INT IDENTITY(1,1) PRIMARY KEY,
+  userId INT NOT NULL FOREIGN KEY REFERENCES users(userId),
+);
+
+CREATE TABLE ResumeTemplate(
+  resumeId INT IDENTITY(1,1) PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  design TEXT NOT NULL,
+);
